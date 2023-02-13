@@ -37,7 +37,21 @@ string[] CreateAndFillRandomArray(int length, int strMax, int fromChar, int toCh
     return array;
 }
 
+string[] SelectItemFromArrayByLength(string[] array, int lenMin, int lenMax)
+{
+    string[] newArray = {};
+    for (int i = 0; i < array.Length; i++)
+    {
+        if (lenMin <= array[i].Length & array[i].Length <= lenMax) newArray = newArray.Append(array[i]).ToArray();
+    }
+    return newArray;
+}
+
+
 // string[] myArray = CreateAndFillRandomArray(10, 10, 1040, 1103);
-// string[] myArray = FillArrayManual("Введите любые символы или ВВОД для выхода:\n");
-// Console.WriteLine();
-// Print1DArray(myArray);
+string[] myArray = FillArrayManual("Введите любые символы или ВВОД для выхода:\n");
+Console.WriteLine();
+Print1DArray(myArray);
+string[] myArraySelected = SelectItemFromArrayByLength(myArray, 1, 3);
+Console.WriteLine();
+Print1DArray(myArraySelected);
