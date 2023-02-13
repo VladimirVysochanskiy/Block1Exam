@@ -47,6 +47,21 @@ string[] SelectItemFromArrayByLength(string[] array, int lenMin, int lenMax)
     return newArray;
 }
 
+int InputNumberControl(string text)
+{
+    System.Console.Write(text);
+    int number;
+    while (true)
+    {
+        string? txt = (Console.ReadLine());
+        if (int.TryParse(txt, out number))
+        {
+            break;
+        }
+        System.Console.Write("Введенное значение не является натуральным числом. Попробуйте ещё раз: ");
+    }
+    return number;
+}
 
 // string[] myArray = CreateAndFillRandomArray(10, 10, 1040, 1103);
 string[] myArray = FillArrayManual("Введите любые символы или ВВОД для выхода:\n");
