@@ -1,29 +1,71 @@
-﻿
+﻿// Программа создает строчный массив и дает возможность либо заполнить его вручную,
+// либо заполняет его строками случайной длины из случайных символов указанного диапазона
+// кодовой таблицы.  Из полученного массива формируется массив из строк, длина которых задается
+// переменными.
+
+
+int arrLen = 20;       // Размер генерируемого массива
+int strLenMax = 10;     // Максимальная длина генерируемой строки
+int chMin = 33;        // Диапазон символов кодовой таблицы используемый генератором
+int chMax = 127;
+int selStrLenMin = 1;  // Минимальная длина строки для выборки
+int selStrLenMax = 3;  // Максимальная длина строки для выборки
+
+Console.Clear();
+Console.WriteLine("Создаём строчный массив. \nЗаполнить его автоматически строками из случайных "
+                 +"символов или заполните его вручную?");
+Console.WriteLine("Для автоматического заполнения нажмите 1. \nДля заполнения вручную нажмите 2.");
+
+string[] myArray = {};
+link1:
+Console.Write(">>> ");
+string? mode = Console.ReadLine();
+switch (mode)
+{
+    case "1":
+        ResizeAndFillRandomArray(arrLen, strLenMax, chMin, chMax);
+        break;
+    case "2":
+        Console.WriteLine("Вводите любой текст или символы подтверждая окончание ввода кнопкой ВВОД \n"
+                         +"или просто кнопку ВВОД с пустой строкой для выхода.");
+        FillArrayManual("Новая строка: ");
+        break;
+    default:
+        Console.WriteLine("Выбрано неверное значение. Попробуйте ещё раз.");
+        goto link1;
+    }
+
+Console.WriteLine();
+Console.WriteLine("Исходный массив:");
+Print1DArray(myArray);
+
+string[] myArraySelected = SelectItemFromArrayByLength(myArray, selStrLenMin, selStrLenMax);
+Console.WriteLine();
+Console.WriteLine($"Выбранные строки длиной от {selStrLenMin} до {selStrLenMax} символов:");
+Print1DArray(myArraySelected);
+Console.WriteLine();
 
 
 void Print1DArray(string[] array)
 {
-    Console.Write("| ");
-    Console.Write(string.Join(" | ", array));
-    Console.WriteLine(" |");
+    Console.Write("[ ");
+    Console.Write(string.Join(" ][ ", array));
+    Console.WriteLine(" ]");
 }
 
-string[] FillArrayManual(string text)
+void FillArrayManual(string text)
 {
-    string[] array = {};
     while(true)
     {
         Console.Write(text);
         string? txt = (Console.ReadLine());
         if (txt == "") break;
-        array = array.Append(txt !).ToArray();
+        myArray = myArray.Append(txt !).ToArray();
     }
-    return array;
 }
 
-string[] CreateAndFillRandomArray(int length, int strMax, int fromChar, int toChar)
+void ResizeAndFillRandomArray(int length, int strMax, int fromChar, int toChar)
 {
-    string[] array = new string[length];
     for (int i = 0; i < length; i++)
     {
         string text = "";
@@ -32,9 +74,8 @@ string[] CreateAndFillRandomArray(int length, int strMax, int fromChar, int toCh
         {
             text += Convert.ToChar(new Random().Next(fromChar, toChar));
         }
-        array[i] = text;
+        myArray = myArray.Append(text !).ToArray();
     }
-    return array;
 }
 
 string[] SelectItemFromArrayByLength(string[] array, int lenMin, int lenMax)
@@ -46,27 +87,3 @@ string[] SelectItemFromArrayByLength(string[] array, int lenMin, int lenMax)
     }
     return newArray;
 }
-
-int InputNumberControl(string text)
-{
-    System.Console.Write(text);
-    int number;
-    while (true)
-    {
-        string? txt = (Console.ReadLine());
-        if (int.TryParse(txt, out number))
-        {
-            break;
-        }
-        System.Console.Write("Введенное значение не является натуральным числом. Попробуйте ещё раз: ");
-    }
-    return number;
-}
-
-// string[] myArray = CreateAndFillRandomArray(10, 10, 1040, 1103);
-string[] myArray = FillArrayManual("Введите любые символы или ВВОД для выхода:\n");
-Console.WriteLine();
-Print1DArray(myArray);
-string[] myArraySelected = SelectItemFromArrayByLength(myArray, 1, 3);
-Console.WriteLine();
-Print1DArray(myArraySelected);
